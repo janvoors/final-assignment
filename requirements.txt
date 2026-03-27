@@ -1,0 +1,5 @@
+pandas
+rapidfuzz
+requests
+beautifulsoup4
+ollama

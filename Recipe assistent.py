@@ -1,8 +1,8 @@
 import pandas as pd
 from rapidfuzz import fuzz
+import ollama
 
 recipes = pd.read_csv("recipes.csv")
-recipes.head()
 
 print("\nRecipe Assistant\n")
 
@@ -13,7 +13,7 @@ meal_type = input("Meal type? (breakfast/lunch/dinner or enter to skip): ").stri
 if meal_type == "":
     meal_type = None
 
-# filter properly
+# filter by meal type if provided
 filtered_recipes = recipes.copy()
 
 if meal_type:
@@ -23,9 +23,9 @@ if meal_type:
 
 scored = []
 
-# iterate correctly
+# score each recipe by how many of the user's ingredients it contains
 for _, r in filtered_recipes.iterrows():
-    
+
     # split ingredients string into list
     recipe_ings = [i.strip().lower() for i in r["ingredients"].split(",")]
 
@@ -78,15 +78,17 @@ Tasks:
     use_llm = input("\nGenerate full recipe with LLM? (y/n): ").lower()
 
     if use_llm == "y":
-        import ollama
-
-        response = ollama.chat(
-            model="llama3",
-            messages=[
-                {"role": "user", "content": prompt}
-            ]
-        )
-
-        print(response["message"]["content"])
+        try:
+            response = ollama.chat(
+                model="llama3",
+                messages=[
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            print(response["message"]["content"])
+        except Exception as e:
+            print(f"\nCould not connect to Ollama: {e}")
+            print("Make sure Ollama is running and the llama3 model is installed.")
+            print("See README.md for setup instructions.")
 
 print("\n" + "="*50 + "\n")
