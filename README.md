@@ -1,31 +1,44 @@
-The main purpose of this project is simple; to scrape BBC Good Food's website for recipes,
-which can then be used to figure out what to make for your next meal, based on ingredients you currently have.
+# Recipe Assistant
 
-The main files' purpose are as follows:
-Data gathering & cleanup.ipynb: as the title suggests, this file is used to scrape the BBC's recipes, and clean the data for further use.
-Recipe assistent.py: the chatbot that uses the recipes data. Asks you for the ingredients you have, what kind of meal you want to make, and whether to generate it. Runs on ollama
-recipes.csv: the cleaned recipes data
+Scrapes BBC Good Food for recipes and helps you decide what to cook based on the ingredients you have. Optionally generates step-by-step instructions using a local LLM.
 
-(improve the current readme with the things below, there are a few things missing):
+## Files
 
-## Installation
-It is recommended to use a virtual environment.
+| File | Purpose |
+|------|---------|
+| `Data gathering & cleanup.ipynb` | Scrapes BBC Good Food and outputs `recipes.csv` |
+| `Recipe assistent.py` | Interactive assistant — matches your ingredients to recipes |
+| `recipes.csv` | Pre-scraped dataset (410 recipes, ready to use) |
 
-Dependencies are currently not specified in a requirements.txt file. 
-Adding one would improve reproducibility.
+## Requirements
+
+Python 3.8+ and the packages listed in `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+
+For the LLM feature you also need [Ollama](https://ollama.com) installed and running locally with the `llama3` model:
+
+```bash
+# Install ollama from https://ollama.com, then:
+ollama pull llama3
+ollama serve
+```
 
 ## Usage
 
-### Data collection
-Run the notebook:
-Data gathering & cleanup.ipynb
+Run the recipe assistant:
 
-### Recipe assistant
-Run:
+```bash
 python "Recipe assistent.py"
+```
 
-Note: The assistant uses Ollama. Make sure Ollama is installed and running.
+You will be prompted for:
+1. **Ingredients** — comma-separated, e.g. `chicken, garlic, lemon`
+2. **Meal type** — `breakfast`, `lunch`, `dinner`, or press Enter to skip
+3. **LLM generation** — type `y` to get full instructions (requires Ollama running)
 
-## Notes
-- A requirements.txt file is currently missing
-- Adding explicit dependencies would improve reproducibility and usability
+## Re-scraping data
+
+Open and run `Data gathering & cleanup.ipynb` to re-scrape BBC Good Food. This overwrites `recipes.csv`.
