@@ -2,7 +2,16 @@ import pandas as pd
 from rapidfuzz import fuzz
 import ollama
 
-recipes = pd.read_csv("recipes.csv")
+# Load recipes with error handling
+try:
+    recipes = pd.read_csv("recipes.csv")
+except FileNotFoundError:
+    print("Error: recipes.csv not found.")
+    print("Please run 'Data gathering & cleanup.ipynb' first to generate the recipes file.")
+    exit()
+except Exception as e:
+    print(f"Error loading recipes.csv: {e}")
+    exit()
 
 print("\nRecipe Assistant\n")
 
