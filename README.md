@@ -6,6 +6,8 @@ Data gathering & cleanup.ipynb: as the title suggests, this file is used to scra
 Recipe assistent.py: the chatbot that uses the recipes data. Asks you for the ingredients you have, what kind of meal you want to make, and whether to generate it. Runs on ollama
 recipes.csv: the cleaned recipes data
 
+(improve the current readme with the things below, there are a few things missing):
+
 ## Installation
 It is recommended to use a virtual environment.
 
